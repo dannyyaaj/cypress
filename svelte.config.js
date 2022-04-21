@@ -9,8 +9,8 @@ const config = {
 
   kit: {
     adapter: adapter(),
-    target: '#svelte',
-    ssr: false,
+    // target: '#svelte',
+    // ssr: false,
   },
 };
 

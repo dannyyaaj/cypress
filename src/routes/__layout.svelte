@@ -13,10 +13,10 @@
   ];
 
   $: {
-    const { path } = $page;
+    const { url } = $page;
     applications = applications.map((application) => ({
       ...application,
-      active: path.startsWith(application.path),
+      active: url.pathname.startsWith(application.path),
     }));
   }
 </script>
