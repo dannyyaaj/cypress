@@ -9,8 +9,14 @@ describe('Create a New Item', () => {
     cy.get('[data-test="new-item-input"]').should('exist');
   });
 
-  it('should have the words "Add Item"', () => {
-    cy.contains('Add Item');
+  it('should have an "Add Item" that is disabled', () => {
+    cy.get('[data-test="add-item"]').should('be.disabled');
+  })
+
+  it('should enable "Add Item" button when text is in the input field', () => {
+    cy.get('[data-test="new-item-input"]').type('Good Attitude');
+    cy.get('[data-test="add-item"]').should('be.enabled');
+    cy.get('[data-test="add-item"]').click();
   })
 
 });
