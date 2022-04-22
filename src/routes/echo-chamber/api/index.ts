@@ -23,19 +23,19 @@ export const get: RequestHandler = async () => {
   }
 };
 
-export const post = async (request: ServerRequest<Record<string, any>>) => {
+export const post = async (event: ServerRequest<Record<string, any>>) => {
   let content: string;
   let authorId: number;
 
-  if (typeof request.body === 'string') {
-    content = JSON.parse(request.body).content;
-    authorId = +JSON.parse(request.body).authorId;
-  } else if (request.body instanceof Uint8Array) {
-    content = JSON.parse(request.body.toString()).content;
-    authorId = +JSON.parse(request.body.toString()).authorId;
+  if (typeof await event.request.json() === 'string') {
+    content = await event.request.json().content;
+    authorId = await event.request.json().authorId;
+  } else if (await event.request.json() instanceof Uint8Array) {
+    content = await event.request.json().toString().content;
+    authorId = await event.request.json().toString().authorId;
   } else {
-    content = request.body.get('content');
-    authorId = +request.body.get('authorId');
+    content = await event.request.json().get('content');
+    authorId = await event.request.json().get('authorId');
   }
 
   const post = await prisma.post.create({
@@ -45,7 +45,7 @@ export const post = async (request: ServerRequest<Record<string, any>>) => {
     },
   });
 
-  if (request.headers.accept !== 'application/json') {
+  if (event.request.headers.accept !== 'application/json') {
     return {
       headers: { Location: `/echo-chamber/posts/${post.id}` },
       status: 303,

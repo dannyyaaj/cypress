@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ fetch, page }) => {
-    const { params } = page;
+  export const load: Load = async ({ fetch, params }) => {
+    console.log(params, 'params')
     const endpoint = '/pokemon-search/api/' + params.id;
     const response = await fetch(endpoint);
 

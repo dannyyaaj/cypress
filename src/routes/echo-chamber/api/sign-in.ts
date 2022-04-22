@@ -1,19 +1,19 @@
 import { prisma } from '$lib/utilities/database';
 import { respond } from './_respond';
 
-export const post = async (request) => {
+export const post = async (event) => {
   let email: string;
   let password: string;
 
-  if (typeof request.body === 'string') {
-    email = JSON.parse(request.body).email;
-    password = JSON.parse(request.body).password;
-  } else if (request.body instanceof Uint8Array) {
-    email = JSON.parse(request.body.toString()).email;
-    password = JSON.parse(request.body.toString()).password;
+  if (typeof await event.request.json() === 'string') {
+    email = await event.request.json().email;
+    password = await event.request.json().password;
+  } else if (await event.request.json() instanceof Uint8Array) {
+    email = await event.request.json().toString().email;
+    password = await event.request.json().toString().password;
   } else {
-    email = request.body.get('email');
-    password = request.body.get('password');
+    email = await event.request.json().get('email');
+    password = await event.request.json().get('password');
   }
 
   const user = await prisma.user.findFirst({

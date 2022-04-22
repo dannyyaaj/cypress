@@ -1,20 +1,22 @@
 import { prisma } from '$lib/utilities/database';
 import type { ServerRequest } from '@sveltejs/kit/types/hooks';
 
-export const post = async (request: ServerRequest<Record<string, any>>) => {
+export const post = async (event: ServerRequest<Record<string, any>>) => {
   let user;
   let email: string;
   let password: string;
 
-  if (typeof request.body === 'string') {
-    email = JSON.parse(request.body).email;
-    password = JSON.parse(request.body).password;
-  } else if (request.body instanceof Uint8Array) {
-    email = JSON.parse(request.body.toString()).email;
-    password = JSON.parse(request.body.toString()).password;
+  if (typeof await event.request.json() === 'string') {
+    email = await event.request.json().email;
+    password = await event.request.json().password;
+  } else if (await event.request.json() instanceof Uint8Array) {
+    email = await event.request.json().toString().email;
+    password = await event.request.json().toString().password;
   } else {
-    email = request.body.get('email');
-    password = request.body.get('password');
+    email = await event.request.json().get('email');
+    password = await event.request.json().get('password');
+
+    console.log(email, password, 'email, password')
   }
 
   try {

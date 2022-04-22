@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ page }) => {
-    const numberOfFacts = +page.query.get('amount') || 3;
+  export const load: Load = async ({ fetch, params, url }) => {
+    const numberOfFacts = url.searchParams.get('amount') || 3;
 
     return {
       props: { numberOfFacts },

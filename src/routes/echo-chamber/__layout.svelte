@@ -55,12 +55,12 @@
       <a
         href="/echo-chamber/sign-in"
         data-test="sign-in"
-        class:active={$page.path.endsWith('sign-in')}>Sign In</a
+        class:active={$page.url.pathname.endsWith('sign-in')}>Sign In</a
       >
       <a
         href="/echo-chamber/sign-up"
         data-test="sign-up"
-        class:active={$page.path.endsWith('sign-up')}>Sign Up</a
+        class:active={$page.url.pathname.endsWith('sign-up')}>Sign Up</a
       >
     </div>
   {/if}

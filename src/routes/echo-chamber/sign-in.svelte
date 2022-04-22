@@ -1,6 +1,6 @@
 <script context="module">
-  export async function load({ session, page }) {
-    const error = page.query.get('error');
+  export async function load({ fetch, session, params, url }) {
+    const error = url.searchParams.get('error');
 
     if (session.user) {
       return {
